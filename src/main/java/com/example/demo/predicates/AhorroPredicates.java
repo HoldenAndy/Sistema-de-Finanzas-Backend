@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 public class AhorroPredicates {
 
-    // Predicados para AhorroFijo
     public static final Predicate<AhorroFijo> AHORRO_ACTIVO =
             ahorro -> ahorro.getEstado() == AhorroFijo.EstadoAhorro.ACTIVO;
 
@@ -26,7 +25,6 @@ public class AhorroPredicates {
         return ahorro -> ahorro.calcularProgreso().compareTo(porcentaje) > 0;
     }
 
-    // Predicados para PlanAhorro
     public static final Predicate<PlanAhorro> PLAN_ACTIVO =
             plan -> plan.getEstado() == PlanAhorro.EstadoAhorro.ACTIVO;
 

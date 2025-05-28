@@ -40,7 +40,6 @@ public class AhorroFijo {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    //--Aplicacion de valores inmutables - programacion funcional
     public AhorroFijo(Long idUsuario, String nombre, BigDecimal montoObjetivo, LocalDate fechaObjetivo) {
         this.idUsuario = Objects.requireNonNull(idUsuario, "ID usuario no puede ser null");
         this.nombre = Objects.requireNonNull(nombre, "Nombre no puede ser null");
@@ -54,7 +53,6 @@ public class AhorroFijo {
     public AhorroFijo() {
     }
 
-    //Metodos funcionales inmutables
     public AhorroFijo agregarMonto(BigDecimal monto) {
         return new AhorroFijo.Builder(this).conMontoActual(this.montoActual.add(monto)).build();
     }
@@ -63,18 +61,15 @@ public class AhorroFijo {
         return new AhorroFijo.Builder(this).conEstado(nuevoEstado).build();
     }
 
-    //Para calcular el progreso - P.Funcional
     public BigDecimal calcularProgreso() {
         if (montoObjetivo.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         return montoActual.divide(montoObjetivo, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
     }
 
-    //Predicado para verificar si el ahorro está completo - P.Logica
     public boolean estaCompleto() {
         return montoObjetivo.compareTo(montoObjetivo) >= 0;
     }
 
-    //Builder pattern para crear instancias inmutables
     public static class Builder {
         private final AhorroFijo original;
         private Long idUsuario;
@@ -120,7 +115,7 @@ public class AhorroFijo {
             return nuevo;
         }
     }
-    // Enums
+
     public enum EstadoAhorro {
         ACTIVO, COMPLETADO, PAUSADO, CANCELADO
     }

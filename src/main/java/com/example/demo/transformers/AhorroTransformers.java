@@ -8,7 +8,7 @@ import com.example.demo.entity.PlanAhorro;
 import java.util.function.Function;
 
 public class AhorroTransformers {
-    // Transformadores para AhorroFijo
+
     public static final Function<AhorroFijo, AhorroFijoResponse> TO_RESPONSE =
             ahorro -> new AhorroFijoResponse(
                     ahorro.getIdAhorroFijo(),
@@ -29,7 +29,6 @@ public class AhorroTransformers {
                     ahorro.getMontoObjetivo(),
                     ahorro.calcularProgreso());
 
-    // Transformadores para PlanAhorro
     public static final Function<PlanAhorro, PlanAhorroResponse> TO_PLAN_RESPONSE =
             plan -> new PlanAhorroResponse(
                     plan.getIdPlanAhorro(),

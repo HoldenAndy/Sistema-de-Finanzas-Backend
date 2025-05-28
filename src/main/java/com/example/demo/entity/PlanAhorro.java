@@ -44,7 +44,6 @@ public class PlanAhorro {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    //Constructor inmutable
     public PlanAhorro(Long idUsuario, String nombre, BigDecimal montoPeriodico,
                       FrecuenciaAhorro frecuencia, LocalDate fechaInicio) {
         this.idUsuario = Objects.requireNonNull(idUsuario);
@@ -58,7 +57,6 @@ public class PlanAhorro {
     public PlanAhorro() {
     }
 
-    //Funcion para calcular proxima fecha de ejecucion
     public LocalDate calcularProximaEjecucion() {
         return switch (frecuencia) {
             case DIARIO -> fechaInicio.plusDays(1);
@@ -68,7 +66,7 @@ public class PlanAhorro {
         };
     }
 
-    // Predicado para verificar si debe ejecutarse hoy
+
     public boolean debeEjecutarseHoy() {
         LocalDate hoy = LocalDate.now();
         return switch (frecuencia) {
@@ -119,7 +117,6 @@ public class PlanAhorro {
         return createdAt;
     }
 
-    // Enums
     public enum EstadoAhorro {
         ACTIVO, COMPLETADO, PAUSADO, CANCELADO
     }
