@@ -35,7 +35,7 @@ public class PlanFinanzasController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/usuario/{idUsuario}/activo") // Nuevo endpoint: incluye el idUsuario en la URL
+    @GetMapping("/usuario/{idUsuario}/activo")
     public ResponseEntity<?> getPlanActivoDelUsuario(@PathVariable Integer idUsuario) {
         try {
             Optional<PlanFinanzas> planActivo = planFinanzasService.getPlanActivoByUserId(idUsuario);
@@ -47,7 +47,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @GetMapping("/usuario/{idUsuario}/plan/{idPlan}/ingresos") // Nuevo endpoint: incluye idUsuario
+    @GetMapping("/usuario/{idUsuario}/plan/{idPlan}/ingresos")
     public ResponseEntity<?> getIngresosByPlan(@PathVariable Integer idUsuario, @PathVariable Integer idPlan) {
         try {
             Optional<PlanFinanzas> plan = planFinanzasService.getPlanById(idPlan);
@@ -67,7 +67,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @PostMapping("/usuario/{idUsuario}/plan/{idPlan}/ingresos") // Nuevo endpoint: incluye idUsuario
+    @PostMapping("/usuario/{idUsuario}/plan/{idPlan}/ingresos")
     public ResponseEntity<?> registrarIngreso(@PathVariable Integer idUsuario, @PathVariable Integer idPlan, @RequestBody IngresoDto ingresoDto) {
         try {
             Optional<PlanFinanzas> plan = planFinanzasService.getPlanById(idPlan);
@@ -95,7 +95,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @PutMapping("/usuario/{idUsuario}/ingresos/{idIngreso}") // Nuevo endpoint: incluye idUsuario
+    @PutMapping("/usuario/{idUsuario}/ingresos/{idIngreso}")
     public ResponseEntity<?> updateIngreso(@PathVariable Integer idUsuario, @PathVariable Integer idIngreso, @RequestBody IngresoDto ingresoDto) {
         try {
             Optional<Ingreso> ingresoExistente = ingresoService.findById(idIngreso);
@@ -120,7 +120,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @DeleteMapping("/usuario/{idUsuario}/ingresos/{idIngreso}") // Nuevo endpoint: incluye idUsuario
+    @DeleteMapping("/usuario/{idUsuario}/ingresos/{idIngreso}")
     public ResponseEntity<?> deleteIngreso(@PathVariable Integer idUsuario, @PathVariable Integer idIngreso) {
         try {
             Optional<Ingreso> ingresoExistente = ingresoService.findById(idIngreso);
@@ -137,7 +137,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @GetMapping("/usuario/{idUsuario}/ingresos/ultimos/{limit}") // Nuevo endpoint: incluye idUsuario
+    @GetMapping("/usuario/{idUsuario}/ingresos/ultimos/{limit}")
     public ResponseEntity<?> getUltimosIngresosParaGrafico(@PathVariable Integer idUsuario, @PathVariable int limit) {
         try {
             List<BigDecimal> ingresosParaGrafico = ingresoService.getUltimosIngresosParaGrafico(idUsuario, limit);
@@ -147,7 +147,7 @@ public class PlanFinanzasController {
         }
     }
 
-    @GetMapping("/usuario/{idUsuario}/ingresos/promedio") // Nuevo endpoint: incluye idUsuario
+    @GetMapping("/usuario/{idUsuario}/ingresos/promedio")
     public ResponseEntity<?> getPromedioIngresos(@PathVariable Integer idUsuario) {
         try {
             BigDecimal promedio = ingresoService.getPromedioIngresos(idUsuario);
