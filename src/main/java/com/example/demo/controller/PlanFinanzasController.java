@@ -18,17 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-// *************************************************************************
-// ** IMPORTANTE: Elimina estas importaciones de seguridad **
-// import org.springframework.security.core.Authentication;
-// import org.springframework.security.core.context.SecurityContextHolder;
-// import org.springframework.security.core.userdetails.UserDetails;
-// *************************************************************************
 
 @RestController
-// Cambiamos la ruta base para incluir el ID de usuario si es para todos los endpoints
-// O puedes añadirlo a cada endpoint individualmente si no todos dependen del ID de usuario en la URL base.
-// Para este ejemplo, lo pondremos en los métodos, como hace tu amigo.
+
 @RequestMapping("/api/planes")
 public class PlanFinanzasController {
 
@@ -43,23 +35,8 @@ public class PlanFinanzasController {
         this.usuarioService = usuarioService;
     }
 
-    // *************************************************************************
-    // ** ELIMINAMOS getAuthenticatedUserId() COMPLETAMENTE **
-    // *************************************************************************
-
-    // Ejemplo de endpoint sin idUsuario en la URL base
-    // Si tu lógica para PlanFinanzasController realmente no necesita un ID de usuario en la URL para crear
-    // o para otras operaciones, puedes dejarlo así.
-    // Sin embargo, si quieres que la creación de un plan financiero esté asociada a un usuario
-    // como en el controlador de tu amigo, deberías pasar el idUsuario en el body o en la URL.
-    // Por simplicidad, asumiré que los GETs/POSTs que tenías con un plan específico no necesitan el idUsuario
-    // en la URL BASE si el plan ya pertenece a un usuario.
-    // Si la creacion de un PlanFinanzas también requiere el idUsuario, lo manejamos en el body
-    // o en una ruta como: @PostMapping("/usuario/{idUsuario}")
-
     @GetMapping("/usuario/{idUsuario}/activo") // Nuevo endpoint: incluye el idUsuario en la URL
     public ResponseEntity<?> getPlanActivoDelUsuario(@PathVariable Integer idUsuario) {
-        // El idUsuario ya viene directamente del PathVariable
         try {
             Optional<PlanFinanzas> planActivo = planFinanzasService.getPlanActivoByUserId(idUsuario);
 
@@ -70,21 +47,17 @@ public class PlanFinanzasController {
         }
     }
 
-    // Nota: Para los siguientes endpoints, que ya incluyen un {idPlan}, la verificación de propiedad
-    // del plan al usuario (plan.get().getUsuario().getId().equals(userId)) es crucial.
-    // Aquí el 'userId' viene de la URL.
     @GetMapping("/usuario/{idUsuario}/plan/{idPlan}/ingresos") // Nuevo endpoint: incluye idUsuario
     public ResponseEntity<?> getIngresosByPlan(@PathVariable Integer idUsuario, @PathVariable Integer idPlan) {
         try {
             Optional<PlanFinanzas> plan = planFinanzasService.getPlanById(idPlan);
-            // Verifica que el plan exista y que pertenezca al usuario proporcionado en la URL
             if (plan.isEmpty() || !plan.get().getUsuario().getId().equals(idUsuario)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. El plan no existe o no pertenece al usuario proporcionado.");
             }
 
             List<Ingreso> ingresos = ingresoService.getIngresosByPlanId(idPlan);
             if (ingresos.isEmpty()) {
-                return ResponseEntity.ok(List.of()); // Devuelve una lista vacía si no hay ingresos
+                return ResponseEntity.ok(List.of());
             }
             return ResponseEntity.ok(ingresos);
         } catch (IllegalArgumentException e) {
@@ -98,7 +71,6 @@ public class PlanFinanzasController {
     public ResponseEntity<?> registrarIngreso(@PathVariable Integer idUsuario, @PathVariable Integer idPlan, @RequestBody IngresoDto ingresoDto) {
         try {
             Optional<PlanFinanzas> plan = planFinanzasService.getPlanById(idPlan);
-            // Verifica que el plan exista y que pertenezca al usuario proporcionado en la URL
             if (plan.isEmpty() || !plan.get().getUsuario().getId().equals(idUsuario)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. El plan no existe o no pertenece al usuario proporcionado.");
             }
@@ -128,7 +100,6 @@ public class PlanFinanzasController {
         try {
             Optional<Ingreso> ingresoExistente = ingresoService.findById(idIngreso);
 
-            // Verifica que el ingreso exista y que pertenezca al usuario proporcionado en la URL
             if (ingresoExistente.isEmpty() || !ingresoExistente.get().getPlanFinanzas().getUsuario().getId().equals(idUsuario)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. El ingreso no existe o no pertenece al usuario proporcionado.");
             }
@@ -153,7 +124,6 @@ public class PlanFinanzasController {
     public ResponseEntity<?> deleteIngreso(@PathVariable Integer idUsuario, @PathVariable Integer idIngreso) {
         try {
             Optional<Ingreso> ingresoExistente = ingresoService.findById(idIngreso);
-            // Verifica que el ingreso exista y que pertenezca al usuario proporcionado en la URL
             if (ingresoExistente.isEmpty() || !ingresoExistente.get().getPlanFinanzas().getUsuario().getId().equals(idUsuario)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. El ingreso no existe o no pertenece al usuario proporcionado.");
             }
