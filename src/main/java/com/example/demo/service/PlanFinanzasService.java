@@ -4,6 +4,8 @@ import com.example.demo.dto.PlanFinanzasDto;
 import com.example.demo.entity.PlanFinanzas;
 import com.example.demo.entity.Usuario;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.GastoRepository;
+import com.example.demo.repository.IngresoRepository;
 import com.example.demo.repository.PlanFinanzasRepository;
 import com.example.demo.repository.UsuarioRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,17 +13,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlanFinanzasService {
 
     private final PlanFinanzasRepository planFinanzasRepository;
     private final UsuarioRepository usuarioRepository;
+    private final IngresoRepository ingresoRepository; // <-- Inyectar
+    private final GastoRepository gastoRepository;     // <-- Inyectar
 
-    public PlanFinanzasService(PlanFinanzasRepository planFinanzasRepository, UsuarioRepository usuarioRepository) {
+    public PlanFinanzasService(PlanFinanzasRepository planFinanzasRepository,
+                               UsuarioRepository usuarioRepository,
+                               IngresoRepository ingresoRepository, // <-- Añadir al constructor
+                               GastoRepository gastoRepository) {   // <-- Añadir al constructor
         this.planFinanzasRepository = planFinanzasRepository;
         this.usuarioRepository = usuarioRepository;
+        this.ingresoRepository = ingresoRepository; // <-- Asignar
+        this.gastoRepository = gastoRepository;     // <-- Asignar
     }
 
     @Transactional
@@ -99,6 +110,39 @@ public class PlanFinanzasService {
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró ningún plan activo para el usuario autenticado."));
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal calcularTotalIngresosPorPlan(Integer planId) {
+        // Aseguramos que el plan exista y pertenezca al usuario autenticado
+        Usuario usuario = getAuthenticatedUser();
+        planFinanzasRepository.findByIdAndUsuario_Id(planId, usuario.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
+
+        // Usamos el método de IngresoRepository para sumar montos
+        // Necesitarás un método en IngresoRepository para sumar ingresos por planId
+        return Optional.ofNullable(ingresoRepository.sumMontoByPlanFinanzasId(planId))
+                .orElse(BigDecimal.ZERO); // Si no hay ingresos, devuelve 0
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal calcularTotalGastosPorPlan(Integer planId) {
+        // Aseguramos que el plan exista y pertenezca al usuario autenticado
+        Usuario usuario = getAuthenticatedUser();
+        planFinanzasRepository.findByIdAndUsuario_Id(planId, usuario.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
+
+        // Usamos el método de GastoRepository para sumar montos
+        // Necesitarás un método en GastoRepository para sumar gastos por planId
+        return Optional.ofNullable(gastoRepository.sumMontoByPlanFinanzasId(planId))
+                .orElse(BigDecimal.ZERO); // Si no hay gastos, devuelve 0
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal calcularSaldoTotalPlan(Integer planId) {
+        BigDecimal totalIngresos = calcularTotalIngresosPorPlan(planId);
+        BigDecimal totalGastos = calcularTotalGastosPorPlan(planId);
+        return totalIngresos.subtract(totalGastos);
     }
 
     private Usuario getAuthenticatedUser() {

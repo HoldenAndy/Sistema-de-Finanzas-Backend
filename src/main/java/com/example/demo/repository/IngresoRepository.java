@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,4 +28,7 @@ public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
             "GROUP BY i.categoria " +
             "ORDER BY total DESC")
     List<Map<String, Object>> findIngresoSummaryByTypeForUser(Integer userId);
+
+    @Query("SELECT SUM(i.monto) FROM Ingreso i WHERE i.planFinanzas.id = :planId")
+    BigDecimal sumMontoByPlanFinanzasId(Integer planId);
 }
