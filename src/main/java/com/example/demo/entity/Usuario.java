@@ -64,4 +64,33 @@ public class Usuario{
         this.password = password;
         this.edad = edad;
     }
+    
+    // Getters manuales para evitar problemas de Lombok
+    public int getId() {
+        return this.id;
+    }
+    
+    public String getNombre() {
+        return this.nombre;
+    }
+    
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public String getPassword() {
+        return this.password;
+    }
+    
+    public int getEdad() {
+        return this.edad;
+    }
+    
+    public LocalDate getFechaRegistro() {
+        return this.fechaRegistro;
+    }
+    
+    public Rol getRol() {
+        return this.rol;
+    }
 }

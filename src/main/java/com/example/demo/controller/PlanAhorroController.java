@@ -6,6 +6,7 @@ import com.example.demo.entity.PlanAhorro;
 import com.example.demo.service.PlanAhorroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,15 +18,31 @@ public class PlanAhorroController {
     @Autowired
     private PlanAhorroService service;
 
+    @GetMapping("/test-auth")
+    public ResponseEntity<String> testAuth() {
+        return ResponseEntity.ok("Authentication successful! User: " +
+            SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
     @PostMapping
     public ResponseEntity<PlanAhorro> crearPlan(@RequestBody PlanAhorroRequest request) {
-        PlanAhorro plan = new PlanAhorro(
-                request.idUsuario(),
-                request.nombre(),
-                request.montoPeriodico(),
-                PlanAhorro.FrecuenciaAhorro.valueOf(request.frecuencia().toUpperCase()),
-                request.fechaInicio()
-        );
+        System.out.println("DEBUG - Creating plan for user: " + request.idUsuario());
+        System.out.println("DEBUG - Plan data: " + request);
+        System.out.println("DEBUG - Authentication: " + SecurityContextHolder.getContext().getAuthentication());
+
+        // Crear plan usando constructor vacío y setters para incluir todos los campos
+        PlanAhorro plan = new PlanAhorro();
+        plan.setIdUsuario(request.idUsuario());
+        plan.setNombre(request.nombre());
+        plan.setMontoPeriodico(request.montoPeriodico());
+        plan.setFrecuencia(PlanAhorro.FrecuenciaAhorro.valueOf(request.frecuencia().toUpperCase()));
+        plan.setDiaEjecucion(request.diaEjecucion() != null ? request.diaEjecucion() : 1); // Valor por defecto si es null
+        plan.setFechaInicio(request.fechaInicio());
+        plan.setFechaFin(request.fechaFin());
+        plan.setEstado(PlanAhorro.EstadoAhorro.ACTIVO); // Establecer estado por defecto
+        
+        System.out.println("DEBUG - Plan object before save: " + plan);
+        
         PlanAhorro planCreado = service.crearPlan(plan);
         return ResponseEntity.ok(planCreado);
     }

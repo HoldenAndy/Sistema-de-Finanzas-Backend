@@ -1,12 +1,23 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 public class AuthResponse {
     private String token;
+    
+    // Constructor sin parámetros
+    public AuthResponse() {}
+    
+    // Constructor con parámetro
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+    
+    // Getter
+    public String getToken() {
+        return this.token;
+    }
+    
+    // Setter
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "planes_ahorro")
+@Setter
 public class PlanAhorro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +57,54 @@ public class PlanAhorro {
     }
 
     public PlanAhorro() {
+    }
+
+    // Setters manuales para asegurar compatibilidad
+    public void setIdUsuario(long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setMontoPeriodico(BigDecimal montoPeriodico) {
+        this.montoPeriodico = montoPeriodico;
+    }
+
+    public void setFrecuencia(FrecuenciaAhorro frecuencia) {
+        this.frecuencia = frecuencia;
+    }
+
+    public void setDiaEjecucion(Integer diaEjecucion) {
+        this.diaEjecucion = diaEjecucion;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public void setEstado(EstadoAhorro estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanAhorro{" +
+                "idPlanAhorro=" + idPlanAhorro +
+                ", idUsuario=" + idUsuario +
+                ", nombre='" + nombre + '\'' +
+                ", montoPeriodico=" + montoPeriodico +
+                ", frecuencia=" + frecuencia +
+                ", diaEjecucion=" + diaEjecucion +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFin=" + fechaFin +
+                ", estado=" + estado +
+                '}';
     }
 
     public LocalDate calcularProximaEjecucion() {

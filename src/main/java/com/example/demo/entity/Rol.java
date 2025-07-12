@@ -23,4 +23,22 @@ public class Rol {
         ADMIN,
         USER
     }
+    
+    // Getters manuales para evitar problemas de Lombok
+    public int getId() {
+        return this.id;
+    }
+    
+    public NombreRol getNombre() {
+        return this.nombre;
+    }
+    
+    // Setters manuales
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public void setNombre(NombreRol nombre) {
+        this.nombre = nombre;
+    }
 }

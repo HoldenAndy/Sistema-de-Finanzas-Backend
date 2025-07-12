@@ -46,13 +46,14 @@ public class DataInitializer {
 
         Optional<Usuario> adminExistente = usuarioRepository.findByEmail(emailAdmin);
         if (adminExistente.isEmpty()) {
-            Usuario admin = new Usuario();
-            admin.setNombre("Administrador");
-            admin.setEmail(emailAdmin);
-            admin.setPassword(passwordEncoder.encode("papu123"));
-            admin.setEdad(18);
-            admin.setFechaRegistro(LocalDate.now());
-            admin.setRol(rolAdmin);
+            Usuario admin = new Usuario(
+                "Administrador",
+                emailAdmin,
+                passwordEncoder.encode("papu123"),
+                18,
+                LocalDate.now(),
+                rolAdmin
+            );
 
             usuarioRepository.save(admin);
             System.out.println("Usuario administrador creado: " + emailAdmin);
