@@ -18,4 +18,8 @@ public class UsuarioService {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios;
     }
+    
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElse(null);
+    }
 }

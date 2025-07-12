@@ -67,7 +67,7 @@ public class AhorroFijo {
     }
 
     public boolean estaCompleto() {
-        return montoObjetivo.compareTo(montoObjetivo) >= 0;
+        return montoActual.compareTo(montoObjetivo) >= 0;
     }
 
     public static class Builder {
