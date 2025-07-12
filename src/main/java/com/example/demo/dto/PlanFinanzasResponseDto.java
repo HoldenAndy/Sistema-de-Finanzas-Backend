@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/dto/PlanFinanzasResponseDto.java
 package com.example.demo.dto;
 
 import com.example.demo.entity.PlanFinanzas;
@@ -12,15 +11,14 @@ public class PlanFinanzasResponseDto {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String estado;
-    private Integer usuarioId; // Puedes incluir el ID del usuario si es relevante
-    private BigDecimal totalIngresos; // <-- Nuevo campo calculado
-    private BigDecimal totalGastos;   // <-- Nuevo campo calculado
-    private BigDecimal saldoActual;   // <-- Nuevo campo calculado
+    private Integer usuarioId;
+    private BigDecimal totalIngresos;
+    private BigDecimal totalGastos;
+    private BigDecimal saldoActual;
 
     public PlanFinanzasResponseDto() {
     }
 
-    // Constructor para mapear desde la entidad y los valores calculados
     public PlanFinanzasResponseDto(PlanFinanzas planFinanzas, BigDecimal totalIngresos, BigDecimal totalGastos, BigDecimal saldoActual) {
         this.id = planFinanzas.getId();
         this.sueldoBase = planFinanzas.getSueldoBase();

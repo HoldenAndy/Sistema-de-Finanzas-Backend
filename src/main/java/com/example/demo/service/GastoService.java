@@ -8,7 +8,7 @@ import com.example.demo.entity.Usuario;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.GastoRepository;
 import com.example.demo.repository.PlanFinanzasRepository;
-import com.example.demo.repository.UsuarioRepository; // Asegúrate de importar UsuarioRepository
+import com.example.demo.repository.UsuarioRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional; // Asegúrate de importar Optional
 
 @Service
 public class GastoService {
 
     private final GastoRepository gastoRepository;
     private final PlanFinanzasRepository planFinanzasRepository;
-    private final UsuarioRepository usuarioRepository; // Necesario para getAuthenticatedUser()
+    private final UsuarioRepository usuarioRepository;
 
     public GastoService(GastoRepository gastoRepository,
                         PlanFinanzasRepository planFinanzasRepository,
@@ -38,8 +37,6 @@ public class GastoService {
     public Gasto crearGasto(CrearGastoDto crearGastoDto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // 1. Validar que el plan de finanzas exista y pertenezca al usuario autenticado
-        // NOTA: Usamos planId, luego userId, según la firma de findByIdAndUsuario_Id
         PlanFinanzas planFinanzas = planFinanzasRepository.findByIdAndUsuario_Id(crearGastoDto.getIdPlanFinanzas(), usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
 
@@ -48,7 +45,7 @@ public class GastoService {
         gasto.setDescripcion(crearGastoDto.getDescripcion());
         gasto.setFechaGasto(crearGastoDto.getFechaGasto());
         gasto.setCategoria(crearGastoDto.getCategoria());
-        gasto.setPlanFinanzas(planFinanzas); // Asignar el plan de finanzas validado
+        gasto.setPlanFinanzas(planFinanzas);
 
         return gastoRepository.save(gasto);
     }
@@ -57,11 +54,9 @@ public class GastoService {
     public Gasto actualizarGasto(Integer idGasto, ActualizarGastoDto actualizarGastoDto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // 1. Buscar el gasto existente y validar que pertenezca al usuario autenticado
         Gasto gastoExistente = gastoRepository.findByIdAndPlanFinanzas_Usuario_Id(idGasto, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Gasto no encontrado o no pertenece al usuario autenticado."));
 
-        // Actualizar campos (solo si no son null en el DTO, para permitir actualizaciones parciales)
         if (actualizarGastoDto.getMonto() != null) {
             gastoExistente.setMonto(actualizarGastoDto.getMonto());
         }
@@ -82,7 +77,6 @@ public class GastoService {
     public void eliminarGasto(Integer idGasto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // 1. Buscar el gasto existente y validar que pertenezca al usuario autenticado
         Gasto gastoExistente = gastoRepository.findByIdAndPlanFinanzas_Usuario_Id(idGasto, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Gasto no encontrado o no pertenece al usuario autenticado."));
 
@@ -93,7 +87,6 @@ public class GastoService {
     public Gasto obtenerGastoPorId(Integer idGasto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // 1. Buscar el gasto y validar que pertenezca al usuario autenticado
         return gastoRepository.findByIdAndPlanFinanzas_Usuario_Id(idGasto, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Gasto no encontrado o no pertenece al usuario autenticado."));
     }
@@ -102,11 +95,9 @@ public class GastoService {
     public List<Gasto> listarGastosPorUsuarioYPlan(Integer planId) {
         Usuario usuario = getAuthenticatedUser();
 
-        // 1. Verificar que el planId pertenezca al usuario autenticado
         PlanFinanzas planFinanzas = planFinanzasRepository.findByIdAndUsuario_Id(planId, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
 
-        // 2. Listar gastos para ese plan y usuario
         return gastoRepository.findByPlanFinanzas_Usuario_IdAndPlanFinanzas_Id(usuario.getId(), planId);
     }
 
@@ -131,11 +122,9 @@ public class GastoService {
     @Transactional(readOnly = true)
     public List<String> obtenerCategoriasUnicasGastosPorUsuario() {
         Usuario usuario = getAuthenticatedUser(); // Obtiene el usuario autenticado
-        // Llama al método del repositorio diseñado para categorías únicas
         return gastoRepository.findDistinctCategoriaByPlanFinanzas_Usuario_Id(usuario.getId());
     }
 
-    // Puedes añadir un método para obtener gastos por un rango de fechas si es necesario para /by-month
     @Transactional(readOnly = true)
     public List<Gasto> obtenerGastosPorMesParaUsuario(int year, int month) {
         Usuario usuario = getAuthenticatedUser();
@@ -144,7 +133,6 @@ public class GastoService {
         return gastoRepository.findByPlanFinanzas_Usuario_IdAndFechaGastoBetween(usuario.getId(), startDate, endDate);
     }
 
-    // Método auxiliar para obtener el usuario autenticado (EXISTENTE EN TU PROYECTO)
     private Usuario getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email;

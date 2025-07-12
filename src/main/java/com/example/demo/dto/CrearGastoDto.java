@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/dto/CrearGastoDto.java
 package com.example.demo.dto;
 
 import jakarta.validation.constraints.DecimalMin;

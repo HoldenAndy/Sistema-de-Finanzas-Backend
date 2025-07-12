@@ -1,16 +1,11 @@
-// src/main/java/com/example/demo/dto/ActualizarGastoDto.java
 package com.example.demo.dto;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ActualizarGastoDto {
 
-    // Los campos son opcionales para la actualización si no se usan @NotNull,
-    // pero si se envían, deben cumplir las validaciones
     @DecimalMin(value = "0.01", message = "El monto debe ser mayor que cero")
     private BigDecimal monto;
 
@@ -20,7 +15,6 @@ public class ActualizarGastoDto {
 
     private String categoria;
 
-    // Getters y Setters
     public BigDecimal getMonto() {
         return monto;
     }

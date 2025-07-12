@@ -25,11 +25,9 @@ public class Gasto {
     @Column(nullable = false)
     private String categoria;
 
-    // Relación Many-to-One con PlanFinanzas
-    // Un gasto pertenece a un único PlanFinanzas
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id", nullable = false) // Asegúrate que 'plan_id' sea el nombre de la columna FK en tu tabla 'gastos'
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "gastos"}) // Evita bucles infinitos en JSON y carga perezosa
+    @JoinColumn(name = "plan_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "gastos"})
     private PlanFinanzas planFinanzas;
 
     // Constructores
@@ -93,5 +91,4 @@ public class Gasto {
         this.planFinanzas = planFinanzas;
     }
 
-    // Opcional: toString(), equals(), hashCode() si los necesitas para depuración o colecciones
 }
