@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -107,9 +108,10 @@ public class IngresoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> obtenerResumenIngresosMensualPorUsuario() {
+    public BigDecimal obtenerResumenTotalIngresosPorUsuario() {
         Usuario usuario = getAuthenticatedUser();
-        return ingresoRepository.findIngresoSummaryByMonthForUser(usuario.getId());
+        return ingresoRepository.findTotalIngresosByUserId(usuario.getId())
+                .orElse(BigDecimal.ZERO);
     }
 
     @Transactional(readOnly = true)
@@ -117,6 +119,7 @@ public class IngresoService {
         Usuario usuario = getAuthenticatedUser();
         return ingresoRepository.findIngresoSummaryByTypeForUser(usuario.getId());
     }
+
 
     private Usuario getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

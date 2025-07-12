@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/incomes")
@@ -55,4 +57,17 @@ public class IngresoController {
         ingresoService.eliminarIngreso(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/summary")
+    public ResponseEntity<BigDecimal> obtenerResumenIngresos() {
+        BigDecimal totalIngresos = ingresoService.obtenerResumenTotalIngresosPorUsuario();
+        return new ResponseEntity<>(totalIngresos, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-type")
+    public ResponseEntity<List<Map<String, Object>>> obtenerIngresosPorTipo() {
+        List<Map<String, Object>> ingresosPorTipo = ingresoService.obtenerIngresosPorTipoPorUsuario();
+        return new ResponseEntity<>(ingresosPorTipo, HttpStatus.OK);
+    }
+
 }

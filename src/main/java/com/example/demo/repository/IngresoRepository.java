@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
@@ -22,13 +23,18 @@ public interface IngresoRepository extends JpaRepository<Ingreso, Integer> {
             "ORDER BY mes")
     List<Map<String, Object>> findIngresoSummaryByMonthForUser(Integer userId);
 
-    @Query("SELECT new map(i.categoria as categoria, SUM(i.monto) as total) " +
-            "FROM Ingreso i " +
-            "WHERE i.planFinanzas.usuario.id = :userId " +
-            "GROUP BY i.categoria " +
-            "ORDER BY total DESC")
-    List<Map<String, Object>> findIngresoSummaryByTypeForUser(Integer userId);
 
     @Query("SELECT SUM(i.monto) FROM Ingreso i WHERE i.planFinanzas.id = :planId")
     BigDecimal sumMontoByPlanFinanzasId(Integer planId);
+
+    @Query("SELECT SUM(i.monto) FROM Ingreso i WHERE i.planFinanzas.usuario.id = :userId")
+    Optional<BigDecimal> findTotalIngresosByUserId(Integer userId);
+
+    @Query("SELECT new map(i.tipo as tipo, SUM(i.monto) as total) " +
+            "FROM Ingreso i WHERE i.planFinanzas.usuario.id = :userId GROUP BY i.tipo")
+    List<Map<String, Object>> findIngresoSummaryByTypeForUser(Integer userId);
+
+    @Query("SELECT SUM(i.monto) FROM Ingreso i WHERE i.planFinanzas.id = :planId AND i.planFinanzas.usuario.id = :userId")
+    Optional<BigDecimal> sumMontoByPlanFinanzasIdAndUserId(Integer planId, Integer userId);
+
 }
