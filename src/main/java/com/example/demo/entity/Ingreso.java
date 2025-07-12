@@ -1,16 +1,12 @@
 package com.example.demo.entity;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-import java.time.LocalDate; // <-- Importación necesaria
-
-
+import java.time.LocalDate;
 
 @Entity
 
@@ -18,37 +14,23 @@ import java.time.LocalDate; // <-- Importación necesaria
 
 public class Ingreso {
 
-
-
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
 
-
-
     private BigDecimal monto;
-
-
 
     private String descripcion;
 
-
-
     @Column(name = "fecha_ingreso")
 
-    private LocalDate fechaIngreso; // <-- Campo añadido en una corrección anterior
+    private LocalDate fechaIngreso;
 
+    private String categoria;
 
-
-    private String categoria; // <-- Campo añadido en una corrección anterior
-
-
-
-    private String tipo; // <-- ¡Nuevo campo añadido!
-
-
+    private String tipo;
 
     @ManyToOne(fetch = FetchType.LAZY)
 
@@ -58,17 +40,9 @@ public class Ingreso {
 
     private PlanFinanzas planFinanzas;
 
-
-
-    // Constructores (puedes añadir uno por defecto si lo necesitas)
-
     public Ingreso() {
 
     }
-
-
-
-    // Getters y Setters
 
     public Integer getId() {
 
@@ -76,15 +50,11 @@ public class Ingreso {
 
     }
 
-
-
     public void setId(Integer id) {
 
         this.id = id;
 
     }
-
-
 
     public BigDecimal getMonto() {
 
@@ -92,15 +62,11 @@ public class Ingreso {
 
     }
 
-
-
     public void setMonto(BigDecimal monto) {
 
         this.monto = monto;
 
     }
-
-
 
     public String getDescripcion() {
 
@@ -108,15 +74,11 @@ public class Ingreso {
 
     }
 
-
-
     public void setDescripcion(String descripcion) {
 
         this.descripcion = descripcion;
 
     }
-
-
 
     public LocalDate getFechaIngreso() {
 
@@ -124,15 +86,11 @@ public class Ingreso {
 
     }
 
-
-
     public void setFechaIngreso(LocalDate fechaIngreso) {
 
         this.fechaIngreso = fechaIngreso;
 
     }
-
-
 
     public String getCategoria() {
 
@@ -140,15 +98,11 @@ public class Ingreso {
 
     }
 
-
-
     public void setCategoria(String categoria) {
 
         this.categoria = categoria;
 
     }
-
-
 
     public String getTipo() {
 
@@ -156,23 +110,17 @@ public class Ingreso {
 
     }
 
-
-
     public void setTipo(String tipo) {
 
         this.tipo = tipo;
 
     }
 
-
-
     public PlanFinanzas getPlanFinanzas() {
 
         return planFinanzas;
 
     }
-
-
 
     public void setPlanFinanzas(PlanFinanzas planFinanzas) {
 

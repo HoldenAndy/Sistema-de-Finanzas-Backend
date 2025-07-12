@@ -21,13 +21,11 @@ public class CrearIngresoDto {
     @NotBlank(message = "La categoría no puede estar vacía")
     private String categoria;
 
-    @NotBlank(message = "El tipo de ingreso no puede estar vacío") // <-- ¡Añadido!
-    private String tipo; // <-- ¡Añadido!
+    @NotBlank(message = "El tipo de ingreso no puede estar vacío")
+    private String tipo;
 
     @NotNull(message = "El ID del plan de finanzas no puede ser nulo")
     private Integer idPlanFinanzas;
-
-    // Getters y Setters
 
     public BigDecimal getMonto() {
         return monto;
@@ -61,11 +59,11 @@ public class CrearIngresoDto {
         this.categoria = categoria;
     }
 
-    public String getTipo() { // <-- ¡Nuevo Getter!
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) { // <-- ¡Nuevo Setter!
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

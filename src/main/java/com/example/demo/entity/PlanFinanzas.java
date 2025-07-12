@@ -2,9 +2,6 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data; // Si usas Lombok, el @Data ya generaría los getters/setters por ti
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,7 +14,6 @@ public class PlanFinanzas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // ¡CAMBIO CLAVE AQUÍ: Renombrado de id_plan a id!
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +51,6 @@ public class PlanFinanzas {
         this.estado = estado;
     }
 
-    // ¡CAMBIO CLAVE AQUÍ: Actualizados getters y setters para 'id'!
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

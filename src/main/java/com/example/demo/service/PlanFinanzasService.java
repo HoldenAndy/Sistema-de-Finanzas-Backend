@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.PlanFinanzasDto;
 import com.example.demo.entity.PlanFinanzas;
 import com.example.demo.entity.Usuario;
-import com.example.demo.exception.ResourceNotFoundException; // Asegúrate de que esta clase esté creada y bien importada
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.PlanFinanzasRepository;
 import com.example.demo.repository.UsuarioRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlanFinanzasService {
@@ -34,7 +33,7 @@ public class PlanFinanzasService {
         planFinanzas.setFechaInicio(planFinanzasDto.getFechaInicio());
         planFinanzas.setFechaFin(planFinanzasDto.getFechaFin());
         planFinanzas.setEstado(planFinanzasDto.getEstado());
-        planFinanzas.setUsuario(usuario); // Asignar el usuario autenticado
+        planFinanzas.setUsuario(usuario);
 
         return planFinanzasRepository.save(planFinanzas);
     }
@@ -43,7 +42,6 @@ public class PlanFinanzasService {
     public PlanFinanzas actualizarPlanFinanzas(Integer idPlan, PlanFinanzasDto planFinanzasDto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // Buscar plan por ID de plan y por usuario para asegurar pertenencia
         PlanFinanzas planExistente = planFinanzasRepository.findByIdAndUsuario_Id(idPlan, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
 
@@ -82,17 +80,15 @@ public class PlanFinanzasService {
     public PlanFinanzas activarPlanFinanzas(Integer idPlan) {
         Usuario usuario = getAuthenticatedUser();
 
-        // Desactivar todos los planes activos del usuario (estado "activo")
         List<PlanFinanzas> planesActivos = planFinanzasRepository.findByUsuarioIdAndEstado(usuario.getId(), "activo");
         for (PlanFinanzas plan : planesActivos) {
-            plan.setEstado("inactivo"); // Cambiar a "inactivo"
+            plan.setEstado("inactivo");
             planFinanzasRepository.save(plan);
         }
 
-        // Activar el plan solicitado
         PlanFinanzas planAActivar = planFinanzasRepository.findByIdAndUsuario_Id(idPlan, usuario.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Plan de finanzas no encontrado o no pertenece al usuario autenticado."));
-        planAActivar.setEstado("activo"); // Cambiar a "activo"
+        planAActivar.setEstado("activo");
         return planFinanzasRepository.save(planAActivar);
     }
 
@@ -101,11 +97,10 @@ public class PlanFinanzasService {
         Usuario usuario = getAuthenticatedUser();
         return planFinanzasRepository.findByUsuarioIdAndEstado(usuario.getId(), "activo")
                 .stream()
-                .findFirst() // Debería haber solo uno "activo"
+                .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró ningún plan activo para el usuario autenticado."));
     }
 
-    // Método auxiliar para obtener el usuario autenticado (repetido en IngresoService)
     private Usuario getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email;

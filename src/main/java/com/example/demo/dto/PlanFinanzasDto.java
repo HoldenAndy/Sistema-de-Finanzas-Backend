@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-// No necesitas @Data aquí a menos que quieras Lombok para los DTOs,
-// pero por claridad y para evitar dependencias implícitas en el DTO, los Getters/Setters se escriben.
 public class PlanFinanzasDto {
 
     @NotNull(message = "El sueldo base no puede ser nulo")
@@ -17,12 +15,10 @@ public class PlanFinanzasDto {
     @NotNull(message = "La fecha de inicio no puede ser nula")
     private LocalDate fechaInicio;
 
-    private LocalDate fechaFin; // Puede ser nula, por eso no @NotNull
+    private LocalDate fechaFin;
 
     @NotBlank(message = "El estado no puede estar vacío")
-    private String estado; // Cambiado de 'activo' a 'estado'
-
-    // Getters y Setters (los escribo para asegurar compatibilidad si no usas Lombok en DTOs)
+    private String estado;
 
     public BigDecimal getSueldoBase() {
         return sueldoBase;
