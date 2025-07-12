@@ -1,56 +1,183 @@
 package com.example.demo.entity;
 
+
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+
+import java.time.LocalDate; // <-- Importación necesaria
+
+
 
 @Entity
-@Table(name = "plan_ingresos")
+
+@Table(name = "ingresos")
+
 public class Ingreso {
 
+
+
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_ingreso;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_plan", referencedColumnName = "id_plan", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "ingresos", "gastos"}) // "ingresos" y "gastos" si existen en PlanFinanzas para evitar bucles
-    private PlanFinanzas planFinanzas;
+    private Integer id;
 
-    @Column(name = "monto", precision = 10, scale = 2, nullable = false)
+
+
     private BigDecimal monto;
 
-    @Column(name = "fecha", nullable = false)
-    private LocalDate fecha;
 
-    @Column(name = "descripcion", length = 100)
+
     private String descripcion;
 
-    @Column(name = "tipo", length = 50, nullable = false)
-    private String tipo;
+
+
+    @Column(name = "fecha_ingreso")
+
+    private LocalDate fechaIngreso; // <-- Campo añadido en una corrección anterior
+
+
+
+    private String categoria; // <-- Campo añadido en una corrección anterior
+
+
+
+    private String tipo; // <-- ¡Nuevo campo añadido!
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "plan_id")
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "ingresos"})
+
+    private PlanFinanzas planFinanzas;
+
+
+
+    // Constructores (puedes añadir uno por defecto si lo necesitas)
 
     public Ingreso() {
+
     }
 
-    public Ingreso(PlanFinanzas planFinanzas, BigDecimal monto, LocalDate fecha, String descripcion, String tipo) {
-        this.planFinanzas = planFinanzas;
+
+
+    // Getters y Setters
+
+    public Integer getId() {
+
+        return id;
+
+    }
+
+
+
+    public void setId(Integer id) {
+
+        this.id = id;
+
+    }
+
+
+
+    public BigDecimal getMonto() {
+
+        return monto;
+
+    }
+
+
+
+    public void setMonto(BigDecimal monto) {
+
         this.monto = monto;
-        this.fecha = fecha;
-        this.descripcion = descripcion;
-        this.tipo = tipo;
+
     }
 
-    public Integer getId_ingreso() { return id_ingreso; }
-    public void setId_ingreso(Integer id_ingreso) { this.id_ingreso = id_ingreso; }
-    public PlanFinanzas getPlanFinanzas() { return planFinanzas; }
-    public void setPlanFinanzas(PlanFinanzas planFinanzas) { this.planFinanzas = planFinanzas; }
-    public BigDecimal getMonto() { return monto; }
-    public void setMonto(BigDecimal monto) { this.monto = monto; }
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+
+
+    public String getDescripcion() {
+
+        return descripcion;
+
+    }
+
+
+
+    public void setDescripcion(String descripcion) {
+
+        this.descripcion = descripcion;
+
+    }
+
+
+
+    public LocalDate getFechaIngreso() {
+
+        return fechaIngreso;
+
+    }
+
+
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+
+        this.fechaIngreso = fechaIngreso;
+
+    }
+
+
+
+    public String getCategoria() {
+
+        return categoria;
+
+    }
+
+
+
+    public void setCategoria(String categoria) {
+
+        this.categoria = categoria;
+
+    }
+
+
+
+    public String getTipo() {
+
+        return tipo;
+
+    }
+
+
+
+    public void setTipo(String tipo) {
+
+        this.tipo = tipo;
+
+    }
+
+
+
+    public PlanFinanzas getPlanFinanzas() {
+
+        return planFinanzas;
+
+    }
+
+
+
+    public void setPlanFinanzas(PlanFinanzas planFinanzas) {
+
+        this.planFinanzas = planFinanzas;
+
+    }
+
 }

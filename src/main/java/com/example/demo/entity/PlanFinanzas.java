@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Data; // Si usas Lombok, el @Data ya generaría los getters/setters por ti
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -17,11 +17,12 @@ public class PlanFinanzas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_plan;
+    // ¡CAMBIO CLAVE AQUÍ: Renombrado de id_plan a id!
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Es importante que sea LAZY
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "planesFinanzas"}) // "planesFinanzas" si existe en Usuario
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "planesFinanzas"})
     private Usuario usuario;
 
     @Column(name = "sueldo_base", precision = 10, scale = 2)
@@ -54,8 +55,10 @@ public class PlanFinanzas {
         this.estado = estado;
     }
 
-    public Integer getId_plan() { return id_plan; }
-    public void setId_plan(Integer id_plan) { this.id_plan = id_plan; }
+    // ¡CAMBIO CLAVE AQUÍ: Actualizados getters y setters para 'id'!
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
     public BigDecimal getSueldoBase() { return sueldoBase; }

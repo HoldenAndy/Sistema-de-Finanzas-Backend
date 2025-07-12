@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import lombok.Data; // Para generar getters y setters automáticamente
+import lombok.Data;
 
 import java.math.BigDecimal;
 
