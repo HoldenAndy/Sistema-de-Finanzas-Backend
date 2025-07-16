@@ -39,7 +39,16 @@ public class AhorroTransformers {
                     plan.getFechaInicio(),
                     plan.getFechaFin(),
                     plan.getEstado().toString(),
-                    plan.calcularProximaEjecucion()
+                    plan.calcularProximaEjecucion(),
+                    plan.getSueldoBase(),
+                    plan.getOtrosIngresos(),
+                    plan.getMetaPrincipal(),
+                    plan.getMontoObjetivo(),
+                    plan.getDistribucionNecesidades(),
+                    plan.getDistribucionDeseos(),
+                    plan.getDistribucionAhorros(),
+                    plan.getTipoDistribucion(),
+                    plan.getPrioridad()
             );
 
 }

@@ -21,33 +21,32 @@ public class SavingsService {
     @Autowired
     private AhorroFijoRepository ahorroFijoRepository;
 
-    // Obtener ahorro específico por ID
+    
     public Optional<AhorroFijoResponse> obtenerAhorroPorId(Long id) {
         Optional<AhorroFijo> ahorro = ahorroFijoRepository.findById(id);
         return ahorro.map(AhorroTransformers.TO_RESPONSE);
     }
 
-    // Actualizar ahorro existente
+    
     public Optional<AhorroFijo> actualizarAhorro(Long id, AhorroFijoRequest request) {
         Optional<AhorroFijo> ahorroExistente = ahorroFijoRepository.findById(id);
         
         if (ahorroExistente.isPresent()) {
             AhorroFijo ahorro = ahorroExistente.get();
             
-            // Crear nuevo ahorro con datos actualizados
+            
             AhorroFijo ahorroActualizado = new AhorroFijo.Builder(ahorro)
                     .conMontoActual(ahorro.getMontoActual()) // Mantener monto actual
                     .build();
             
-            // Actualizar campos editables (esto requeriría métodos setter o un builder más completo)
-            // Por ahora, mantenemos la funcionalidad básica
+            
             return Optional.of(ahorroFijoRepository.save(ahorroActualizado));
         }
         
         return Optional.empty();
     }
 
-    // Eliminar ahorro
+    
     public boolean eliminarAhorro(Long id) {
         if (ahorroFijoRepository.existsById(id)) {
             ahorroFijoRepository.deleteById(id);
@@ -56,13 +55,13 @@ public class SavingsService {
         return false;
     }
 
-    // Obtener resumen completo de ahorros
+    
     public Map<String, Object> obtenerResumenAhorros(Long userId) {
         List<AhorroFijo> ahorros = ahorroFijoRepository.findByIdUsuario(userId);
         
         Map<String, Object> resumen = new HashMap<>();
         
-        // Estadísticas básicas
+        
         resumen.put("totalAhorros", ahorros.size());
         resumen.put("ahorrosActivos", ahorros.stream()
                 .filter(a -> a.getEstado() == AhorroFijo.EstadoAhorro.ACTIVO)
@@ -71,7 +70,7 @@ public class SavingsService {
                 .filter(a -> a.getEstado() == AhorroFijo.EstadoAhorro.COMPLETADO)
                 .count());
         
-        // Montos
+        
         BigDecimal totalObjetivo = ahorros.stream()
                 .map(AhorroFijo::getMontoObjetivo)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -83,7 +82,7 @@ public class SavingsService {
         resumen.put("totalMontoObjetivo", totalObjetivo);
         resumen.put("totalMontoActual", totalActual);
         
-        // Progreso general
+        
         BigDecimal progresoGeneral = BigDecimal.ZERO;
         if (totalObjetivo.compareTo(BigDecimal.ZERO) > 0) {
             progresoGeneral = totalActual.divide(totalObjetivo, 4, RoundingMode.HALF_UP)
@@ -91,7 +90,7 @@ public class SavingsService {
         }
         resumen.put("progresoGeneral", progresoGeneral);
         
-        // Próximos a vencer (30 días)
+    
         long proximosAVencer = ahorros.stream()
                 .filter(a -> a.getEstado() == AhorroFijo.EstadoAhorro.ACTIVO)
                 .filter(a -> a.getFechaObjetivo().isBefore(LocalDate.now().plusDays(30)))
@@ -101,13 +100,13 @@ public class SavingsService {
         return resumen;
     }
 
-    // Obtener ahorros agrupados por tipo/estado
+    
     public Map<String, Object> obtenerAhorrosPorTipo(Long userId) {
         List<AhorroFijo> ahorros = ahorroFijoRepository.findByIdUsuario(userId);
         
         Map<String, Object> resultado = new HashMap<>();
         
-        // Agrupar por estado
+        
         Map<String, List<AhorroFijoResponse>> porEstado = ahorros.stream()
                 .collect(Collectors.groupingBy(
                         ahorro -> ahorro.getEstado().toString(),
@@ -116,7 +115,7 @@ public class SavingsService {
         
         resultado.put("porEstado", porEstado);
         
-        // Agrupar por rango de monto
+        
         Map<String, List<AhorroFijoResponse>> porRangoMonto = new HashMap<>();
         porRangoMonto.put("pequeño (< $1000)", new ArrayList<>());
         porRangoMonto.put("mediano ($1000 - $5000)", new ArrayList<>());
@@ -140,7 +139,7 @@ public class SavingsService {
         return resultado;
     }
 
-    // Obtener metas y estadísticas de progreso
+    
     public Map<String, Object> obtenerMetasAhorro(Long userId) {
         List<AhorroFijo> ahorros = ahorroFijoRepository.findByIdUsuario(userId);
         List<AhorroFijo> ahorrosActivos = ahorros.stream()
@@ -149,7 +148,7 @@ public class SavingsService {
         
         Map<String, Object> metas = new HashMap<>();
         
-        // Metas por completar
+        
         List<Map<String, Object>> metasPendientes = ahorrosActivos.stream()
                 .map(ahorro -> {
                     Map<String, Object> meta = new HashMap<>();
@@ -160,11 +159,11 @@ public class SavingsService {
                     meta.put("progreso", ahorro.calcularProgreso());
                     meta.put("fechaObjetivo", ahorro.getFechaObjetivo());
                     
-                    // Días restantes
+                    
                     long diasRestantes = ChronoUnit.DAYS.between(LocalDate.now(), ahorro.getFechaObjetivo());
                     meta.put("diasRestantes", diasRestantes);
                     
-                    // Monto diario necesario
+                    
                     BigDecimal montoFaltante = ahorro.getMontoObjetivo().subtract(ahorro.getMontoActual());
                     BigDecimal montoDiario = BigDecimal.ZERO;
                     if (diasRestantes > 0) {
@@ -179,7 +178,7 @@ public class SavingsService {
         
         metas.put("metasPendientes", metasPendientes);
         
-        // Estadísticas de cumplimiento
+        
         long metasCompletadas = ahorros.stream()
                 .filter(a -> a.getEstado() == AhorroFijo.EstadoAhorro.COMPLETADO)
                 .count();
@@ -191,7 +190,6 @@ public class SavingsService {
         metas.put("totalMetas", ahorros.size());
         metas.put("tasaExito", Math.round(tasaExito * 100.0) / 100.0);
         
-        // Próximas metas (próximos 30 días)
         List<Map<String, Object>> proximasMetas = metasPendientes.stream()
                 .filter(meta -> ((Long) meta.get("diasRestantes")) <= 30 && ((Long) meta.get("diasRestantes")) > 0)
                 .limit(5)

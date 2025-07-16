@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -68,6 +67,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
+                        .requestMatchers("/api/usuario/**").permitAll()
+                        .requestMatchers("/api/plans/**").authenticated()
+                        .requestMatchers("/api/ingresos/**").authenticated()
+                        .requestMatchers("/api/gastos/**").authenticated()
+                        .requestMatchers("/api/ahorros/**").authenticated()
+                        .requestMatchers("/api/planes-ahorro/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -11,7 +11,7 @@ public class RegisterRequest {
     private String password;
     private Integer edad;
     
-    // Constructores
+    
     public RegisterRequest() {}
     
     public RegisterRequest(String nombre, String email, String password, Integer edad) {
@@ -21,7 +21,7 @@ public class RegisterRequest {
         this.edad = edad;
     }
     
-    // Getters manuales para evitar problemas de Lombok
+    
     public String getNombre() {
         return this.nombre;
     }

@@ -10,6 +10,15 @@ public record PlanAhorroRequest(
         String frecuencia,
         Integer diaEjecucion,
         LocalDate fechaInicio,
-        LocalDate fechaFin
+        LocalDate fechaFin,
+        BigDecimal sueldoBase,
+        BigDecimal otrosIngresos,
+        String metaPrincipal,
+        BigDecimal montoObjetivo,
+        BigDecimal distribucionNecesidades,
+        BigDecimal distribucionDeseos,
+        BigDecimal distribucionAhorros,
+        String tipoDistribucion,
+        String prioridad
 ) {
 }

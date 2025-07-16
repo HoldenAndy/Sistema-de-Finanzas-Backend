@@ -12,6 +12,15 @@ public record PlanAhorroResponse(
         LocalDate fechaInicio,
         LocalDate fechaFin,
         String estado,
-        LocalDate proximaEjecucion
+        LocalDate proximaEjecucion,
+        BigDecimal sueldoBase,
+        BigDecimal otrosIngresos,
+        String metaPrincipal,
+        BigDecimal montoObjetivo,
+        BigDecimal distribucionNecesidades,
+        BigDecimal distribucionDeseos,
+        BigDecimal distribucionAhorros,
+        String tipoDistribucion,
+        String prioridad
 ) {
 }
