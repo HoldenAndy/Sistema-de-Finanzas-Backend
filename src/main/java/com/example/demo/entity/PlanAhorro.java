@@ -46,6 +46,34 @@ public class PlanAhorro {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    // Nuevos campos para el wizard avanzado
+    @Column(name = "sueldo_base", precision = 12, scale = 2)
+    private BigDecimal sueldoBase;
+
+    @Column(name = "otros_ingresos", precision = 12, scale = 2)
+    private BigDecimal otrosIngresos = BigDecimal.ZERO;
+
+    @Column(name = "meta_principal")
+    private String metaPrincipal;
+
+    @Column(name = "monto_objetivo", precision = 12, scale = 2)
+    private BigDecimal montoObjetivo;
+
+    @Column(name = "distribucion_necesidades", precision = 5, scale = 2)
+    private BigDecimal distribucionNecesidades = new BigDecimal("50.00");
+
+    @Column(name = "distribucion_deseos", precision = 5, scale = 2)
+    private BigDecimal distribucionDeseos = new BigDecimal("30.00");
+
+    @Column(name = "distribucion_ahorros", precision = 5, scale = 2)
+    private BigDecimal distribucionAhorros = new BigDecimal("20.00");
+
+    @Column(name = "tipo_distribucion")
+    private String tipoDistribucion = "BALANCED"; // CONSERVATIVE, BALANCED, AGGRESSIVE, CUSTOM
+
+    @Column(name = "prioridad")
+    private String prioridad = "MEDIA"; // ALTA, MEDIA, BAJA
+
     public PlanAhorro(Long idUsuario, String nombre, BigDecimal montoPeriodico,
                       FrecuenciaAhorro frecuencia, LocalDate fechaInicio) {
         this.idUsuario = Objects.requireNonNull(idUsuario);
@@ -165,6 +193,79 @@ public class PlanAhorro {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    // Getters y setters para los nuevos campos
+    public BigDecimal getSueldoBase() {
+        return sueldoBase;
+    }
+
+    public void setSueldoBase(BigDecimal sueldoBase) {
+        this.sueldoBase = sueldoBase;
+    }
+
+    public BigDecimal getOtrosIngresos() {
+        return otrosIngresos;
+    }
+
+    public void setOtrosIngresos(BigDecimal otrosIngresos) {
+        this.otrosIngresos = otrosIngresos;
+    }
+
+    public String getMetaPrincipal() {
+        return metaPrincipal;
+    }
+
+    public void setMetaPrincipal(String metaPrincipal) {
+        this.metaPrincipal = metaPrincipal;
+    }
+
+    public BigDecimal getMontoObjetivo() {
+        return montoObjetivo;
+    }
+
+    public void setMontoObjetivo(BigDecimal montoObjetivo) {
+        this.montoObjetivo = montoObjetivo;
+    }
+
+    public BigDecimal getDistribucionNecesidades() {
+        return distribucionNecesidades;
+    }
+
+    public void setDistribucionNecesidades(BigDecimal distribucionNecesidades) {
+        this.distribucionNecesidades = distribucionNecesidades;
+    }
+
+    public BigDecimal getDistribucionDeseos() {
+        return distribucionDeseos;
+    }
+
+    public void setDistribucionDeseos(BigDecimal distribucionDeseos) {
+        this.distribucionDeseos = distribucionDeseos;
+    }
+
+    public BigDecimal getDistribucionAhorros() {
+        return distribucionAhorros;
+    }
+
+    public void setDistribucionAhorros(BigDecimal distribucionAhorros) {
+        this.distribucionAhorros = distribucionAhorros;
+    }
+
+    public String getTipoDistribucion() {
+        return tipoDistribucion;
+    }
+
+    public void setTipoDistribucion(String tipoDistribucion) {
+        this.tipoDistribucion = tipoDistribucion;
+    }
+
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
     }
 
     public enum EstadoAhorro {

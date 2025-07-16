@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,17 @@ public class PlanAhorroController {
         plan.setFechaInicio(request.fechaInicio());
         plan.setFechaFin(request.fechaFin());
         plan.setEstado(PlanAhorro.EstadoAhorro.ACTIVO); // Establecer estado por defecto
+        
+        // Agregar los nuevos campos del wizard avanzado
+        plan.setSueldoBase(request.sueldoBase());
+        plan.setOtrosIngresos(request.otrosIngresos() != null ? request.otrosIngresos() : BigDecimal.ZERO);
+        plan.setMetaPrincipal(request.metaPrincipal());
+        plan.setMontoObjetivo(request.montoObjetivo());
+        plan.setDistribucionNecesidades(request.distribucionNecesidades() != null ? request.distribucionNecesidades() : new BigDecimal("50.00"));
+        plan.setDistribucionDeseos(request.distribucionDeseos() != null ? request.distribucionDeseos() : new BigDecimal("30.00"));
+        plan.setDistribucionAhorros(request.distribucionAhorros() != null ? request.distribucionAhorros() : new BigDecimal("20.00"));
+        plan.setTipoDistribucion(request.tipoDistribucion() != null ? request.tipoDistribucion() : "BALANCED");
+        plan.setPrioridad(request.prioridad() != null ? request.prioridad() : "MEDIA");
         
         System.out.println("DEBUG - Plan object before save: " + plan);
         
