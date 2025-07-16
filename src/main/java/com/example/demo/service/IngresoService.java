@@ -58,7 +58,7 @@ public class IngresoService {
         Ingreso ingresoExistente = ingresoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingreso no encontrado con ID: " + id));
 
-        if (!ingresoExistente.getPlanFinanzas().getUsuario().getId().equals(usuario.getId())) {
+        if (ingresoExistente.getPlanFinanzas().getUsuario().getId() != usuario.getId()) {
             throw new ResourceNotFoundException("El ingreso no pertenece al usuario autenticado.");
         }
 
@@ -77,7 +77,7 @@ public class IngresoService {
         Ingreso ingresoExistente = ingresoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingreso no encontrado con ID: " + id));
 
-        if (!ingresoExistente.getPlanFinanzas().getUsuario().getId().equals(usuario.getId())) {
+        if (ingresoExistente.getPlanFinanzas().getUsuario().getId() != usuario.getId()) {
             throw new ResourceNotFoundException("El ingreso no pertenece al usuario autenticado.");
         }
 
@@ -91,7 +91,7 @@ public class IngresoService {
         Ingreso ingreso = ingresoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ingreso no encontrado con ID: " + id));
 
-        if (!ingreso.getPlanFinanzas().getUsuario().getId().equals(usuario.getId())) {
+        if (ingreso.getPlanFinanzas().getUsuario().getId() != usuario.getId()) {
             throw new ResourceNotFoundException("El ingreso no pertenece al usuario autenticado.");
         }
         return ingreso;
