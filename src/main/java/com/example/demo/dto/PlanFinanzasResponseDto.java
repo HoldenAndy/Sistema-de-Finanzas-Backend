@@ -49,7 +49,7 @@ public class PlanFinanzasResponseDto {
         this.saldoActual = saldoActual;
     }
 
-    // Getters y Setters
+    
     public Integer getId() {
         return id;
     }

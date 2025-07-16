@@ -22,9 +22,8 @@ public class CrearGastoDto {
     private String categoria;
 
     @NotNull(message = "El ID del plan de finanzas es obligatorio")
-    private Integer idPlanFinanzas; // Para asociar el gasto a un plan existente
+    private Integer idPlanFinanzas; 
 
-    // Getters y Setters
     public BigDecimal getMonto() {
         return monto;
     }

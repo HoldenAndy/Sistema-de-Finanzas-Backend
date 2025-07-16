@@ -20,7 +20,7 @@ public class PlanFinanzasDto {
     @NotBlank(message = "El estado no puede estar vacío")
     private String estado;
 
-    // Campos adicionales del wizard avanzado
+    
     private String nombre;
     private BigDecimal otrosIngresos;
     private String metaPrincipal;
@@ -63,7 +63,7 @@ public class PlanFinanzasDto {
         this.estado = estado;
     }
 
-    // Getters y setters para campos del wizard
+    
     public String getNombre() {
         return nombre;
     }

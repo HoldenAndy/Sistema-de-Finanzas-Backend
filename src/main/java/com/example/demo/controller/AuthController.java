@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*") // Añadir soporte adicional de CORS a nivel de controlador
+@CrossOrigin(origins = "*") 
 public class AuthController {
     private final AuthService authService;
     private final UsuarioService usuarioService;
@@ -51,14 +51,14 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            // Log para debugging
+            
             System.out.println("Datos recibidos para registro:");
             System.out.println("Nombre: " + registerRequest.getNombre());
             System.out.println("Email: " + registerRequest.getEmail());
             System.out.println("Password: " + (registerRequest.getPassword() != null ? "***" : "null"));
             System.out.println("Edad: " + registerRequest.getEdad());
             
-            // Crear entidad Usuario usando constructor
+            
             Usuario usuario = new Usuario(
                 registerRequest.getNombre(),
                 registerRequest.getEmail(),
@@ -80,7 +80,6 @@ public class AuthController {
         try {
             System.out.println("DEBUG - /me endpoint called");
             
-            // Obtener el usuario autenticado desde el contexto de seguridad
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             System.out.println("DEBUG - Authentication: " + authentication);
             
@@ -108,9 +107,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    
-    // Clase interna para respuestas de error
-    public static class ErrorResponse {
+        public static class ErrorResponse {
         private String message;
         
         public ErrorResponse(String message) {

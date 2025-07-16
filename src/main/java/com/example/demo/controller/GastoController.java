@@ -60,7 +60,7 @@ public class GastoController {
 
     @GetMapping("/categories")
     public ResponseEntity<List<String>> obtenerCategorias() {
-        // ESTA ES LA LÍNEA CLAVE: Llama al método del servicio que obtiene categorías únicas
+    
         List<String> categorias = gastoService.obtenerCategoriasUnicasGastosPorUsuario();
         return new ResponseEntity<>(categorias, HttpStatus.OK);
     }

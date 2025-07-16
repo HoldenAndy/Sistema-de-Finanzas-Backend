@@ -30,7 +30,7 @@ public class Gasto {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "gastos"})
     private PlanFinanzas planFinanzas;
 
-    // Constructores
+    
     public Gasto() {
     }
 
@@ -42,7 +42,7 @@ public class Gasto {
         this.planFinanzas = planFinanzas;
     }
 
-    // Getters y Setters
+    
     public Integer getId() {
         return id;
     }

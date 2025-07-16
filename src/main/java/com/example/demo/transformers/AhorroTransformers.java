@@ -40,7 +40,6 @@ public class AhorroTransformers {
                     plan.getFechaFin(),
                     plan.getEstado().toString(),
                     plan.calcularProximaEjecucion(),
-                    // Nuevos campos del wizard avanzado
                     plan.getSueldoBase(),
                     plan.getOtrosIngresos(),
                     plan.getMetaPrincipal(),

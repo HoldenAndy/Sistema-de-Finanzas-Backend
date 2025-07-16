@@ -11,7 +11,6 @@ public record PlanAhorroRequest(
         Integer diaEjecucion,
         LocalDate fechaInicio,
         LocalDate fechaFin,
-        // Nuevos campos para el wizard avanzado
         BigDecimal sueldoBase,
         BigDecimal otrosIngresos,
         String metaPrincipal,

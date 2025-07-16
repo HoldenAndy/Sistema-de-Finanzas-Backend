@@ -31,7 +31,6 @@ public class PlanAhorroController {
         System.out.println("DEBUG - Plan data: " + request);
         System.out.println("DEBUG - Authentication: " + SecurityContextHolder.getContext().getAuthentication());
 
-        // Crear plan usando constructor vacío y setters para incluir todos los campos
         PlanAhorro plan = new PlanAhorro();
         plan.setIdUsuario(request.idUsuario());
         plan.setNombre(request.nombre());
@@ -40,9 +39,7 @@ public class PlanAhorroController {
         plan.setDiaEjecucion(request.diaEjecucion() != null ? request.diaEjecucion() : 1); // Valor por defecto si es null
         plan.setFechaInicio(request.fechaInicio());
         plan.setFechaFin(request.fechaFin());
-        plan.setEstado(PlanAhorro.EstadoAhorro.ACTIVO); // Establecer estado por defecto
-        
-        // Agregar los nuevos campos del wizard avanzado
+        plan.setEstado(PlanAhorro.EstadoAhorro.ACTIVO); 
         plan.setSueldoBase(request.sueldoBase());
         plan.setOtrosIngresos(request.otrosIngresos() != null ? request.otrosIngresos() : BigDecimal.ZERO);
         plan.setMetaPrincipal(request.metaPrincipal());

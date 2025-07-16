@@ -70,7 +70,7 @@ public class Usuario{
         this.edad = edad;
     }
     
-    // Getters manuales para evitar problemas de Lombok
+    
     public int getId() {
         return this.id;
     }

@@ -13,7 +13,6 @@ public record PlanAhorroResponse(
         LocalDate fechaFin,
         String estado,
         LocalDate proximaEjecucion,
-        // Nuevos campos para el wizard avanzado
         BigDecimal sueldoBase,
         BigDecimal otrosIngresos,
         String metaPrincipal,

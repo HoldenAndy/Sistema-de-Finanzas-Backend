@@ -39,7 +39,7 @@ public class PlanFinanzasService {
     public PlanFinanzas crearPlanFinanzas(PlanFinanzasDto planFinanzasDto) {
         Usuario usuario = getAuthenticatedUser();
 
-        // Validar que el usuario no tenga más de 3 planes
+        
         List<PlanFinanzas> planesExistentes = planFinanzasRepository.findByUsuarioId(usuario.getId());
         if (planesExistentes.size() >= 3) {
             throw new RuntimeException("No puedes crear más de 3 planes financieros. Límite alcanzado.");
@@ -52,7 +52,7 @@ public class PlanFinanzasService {
         planFinanzas.setEstado(planFinanzasDto.getEstado());
         planFinanzas.setUsuario(usuario);
         
-        // Campos del wizard avanzado
+        
         planFinanzas.setNombre(planFinanzasDto.getNombre());
         planFinanzas.setOtrosIngresos(planFinanzasDto.getOtrosIngresos());
         planFinanzas.setMetaPrincipal(planFinanzasDto.getMetaPrincipal());
@@ -78,7 +78,7 @@ public class PlanFinanzasService {
         planExistente.setFechaFin(planFinanzasDto.getFechaFin());
         planExistente.setEstado(planFinanzasDto.getEstado());
         
-        // Actualizar campos del wizard si están presentes
+        
         if (planFinanzasDto.getNombre() != null) {
             planExistente.setNombre(planFinanzasDto.getNombre());
         }

@@ -34,14 +34,13 @@ public class SavingsController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // Método helper para obtener el usuario autenticado
+    
     private Usuario getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return usuarioService.buscarPorEmail(userDetails.getUsername());
     }
 
-    // GET /api/savings - Listar todos los ahorros del usuario autenticado
     @GetMapping
     public ResponseEntity<List<AhorroFijoResponse>> listarAhorros() {
         Usuario usuario = getAuthenticatedUser();
@@ -52,7 +51,6 @@ public class SavingsController {
         return ResponseEntity.ok(ahorros);
     }
 
-    // POST /api/savings - Crear nuevo ahorro
     @PostMapping
     public ResponseEntity<AhorroFijo> crearAhorro(@RequestBody AhorroFijoRequest request) {
         Usuario usuario = getAuthenticatedUser();
@@ -61,7 +59,7 @@ public class SavingsController {
         }
         
         AhorroFijo ahorro = new AhorroFijo(
-                Long.valueOf(usuario.getId()), // Usar el ID del usuario autenticado
+                Long.valueOf(usuario.getId()), 
                 request.nombre(),
                 request.montoObjetivo(),
                 request.fechaObjetivo()
@@ -70,7 +68,6 @@ public class SavingsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ahorroCreado);
     }
 
-    // GET /api/savings/:id - Obtener ahorro específico
     @GetMapping("/{id}")
     public ResponseEntity<AhorroFijoResponse> obtenerAhorro(@PathVariable Long id) {
         Optional<AhorroFijoResponse> ahorro = savingsService.obtenerAhorroPorId(id);
@@ -78,7 +75,6 @@ public class SavingsController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // PUT /api/savings/:id - Actualizar ahorro
     @PutMapping("/{id}")
     public ResponseEntity<AhorroFijo> actualizarAhorro(
             @PathVariable Long id, 
@@ -88,7 +84,6 @@ public class SavingsController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE /api/savings/:id - Eliminar ahorro
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarAhorro(@PathVariable Long id) {
         boolean eliminado = savingsService.eliminarAhorro(id);
@@ -96,7 +91,6 @@ public class SavingsController {
                         : ResponseEntity.notFound().build();
     }
 
-    // GET /api/savings/summary - Resumen de ahorros
     @GetMapping("/summary")
     public ResponseEntity<Map<String, Object>> obtenerResumen() {
         Usuario usuario = getAuthenticatedUser();
@@ -107,7 +101,6 @@ public class SavingsController {
         return ResponseEntity.ok(resumen);
     }
 
-    // GET /api/savings/by-type - Ahorros por tipo
     @GetMapping("/by-type")
     public ResponseEntity<Map<String, Object>> obtenerAhorrosPorTipo() {
         Usuario usuario = getAuthenticatedUser();
@@ -118,7 +111,6 @@ public class SavingsController {
         return ResponseEntity.ok(ahorrosPorTipo);
     }
 
-    // GET /api/savings/goals - Metas de ahorro
     @GetMapping("/goals")
     public ResponseEntity<Map<String, Object>> obtenerMetasAhorro() {
         Usuario usuario = getAuthenticatedUser();
@@ -129,7 +121,7 @@ public class SavingsController {
         return ResponseEntity.ok(metas);
     }
 
-    // Endpoints adicionales útiles para el frontend
+    
     @PostMapping("/{id}/add-amount")
     public ResponseEntity<AhorroFijo> agregarMonto(
             @PathVariable Long id,

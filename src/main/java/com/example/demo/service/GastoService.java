@@ -121,7 +121,7 @@ public class GastoService {
 
     @Transactional(readOnly = true)
     public List<String> obtenerCategoriasUnicasGastosPorUsuario() {
-        Usuario usuario = getAuthenticatedUser(); // Obtiene el usuario autenticado
+        Usuario usuario = getAuthenticatedUser(); 
         return gastoRepository.findDistinctCategoriaByPlanFinanzas_Usuario_Id(usuario.getId());
     }
 

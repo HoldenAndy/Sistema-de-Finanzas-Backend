@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PlanFinanzasRepository extends JpaRepository<PlanFinanzas, Integer> { // El segundo tipo es el tipo del ID
+public interface PlanFinanzasRepository extends JpaRepository<PlanFinanzas, Integer> { 
 
     List<PlanFinanzas> findByUsuarioId(Integer userId);
 

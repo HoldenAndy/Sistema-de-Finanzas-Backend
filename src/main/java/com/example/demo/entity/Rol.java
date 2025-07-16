@@ -24,7 +24,7 @@ public class Rol {
         USER
     }
     
-    // Getters manuales para evitar problemas de Lombok
+
     public int getId() {
         return this.id;
     }
@@ -33,7 +33,7 @@ public class Rol {
         return this.nombre;
     }
     
-    // Setters manuales
+    
     public void setId(int id) {
         this.id = id;
     }

@@ -46,7 +46,7 @@ public class PlanAhorro {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Nuevos campos para el wizard avanzado
+    
     @Column(name = "sueldo_base", precision = 12, scale = 2)
     private BigDecimal sueldoBase;
 
@@ -69,10 +69,10 @@ public class PlanAhorro {
     private BigDecimal distribucionAhorros = new BigDecimal("20.00");
 
     @Column(name = "tipo_distribucion")
-    private String tipoDistribucion = "BALANCED"; // CONSERVATIVE, BALANCED, AGGRESSIVE, CUSTOM
+    private String tipoDistribucion = "BALANCED"; 
 
     @Column(name = "prioridad")
-    private String prioridad = "MEDIA"; // ALTA, MEDIA, BAJA
+    private String prioridad = "MEDIA"; 
 
     public PlanAhorro(Long idUsuario, String nombre, BigDecimal montoPeriodico,
                       FrecuenciaAhorro frecuencia, LocalDate fechaInicio) {
@@ -87,7 +87,7 @@ public class PlanAhorro {
     public PlanAhorro() {
     }
 
-    // Setters manuales para asegurar compatibilidad
+    
     public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
@@ -195,7 +195,7 @@ public class PlanAhorro {
         return createdAt;
     }
 
-    // Getters y setters para los nuevos campos
+    
     public BigDecimal getSueldoBase() {
         return sueldoBase;
     }

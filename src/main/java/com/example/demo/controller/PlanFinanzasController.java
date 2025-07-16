@@ -52,12 +52,12 @@ public class PlanFinanzasController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    // Modificar este endpoint para devolver una lista de PlanFinanzasResponseDto
+    
     @GetMapping
     public ResponseEntity<List<PlanFinanzasResponseDto>> listarPlanesFinanzasPorUsuario() {
         List<PlanFinanzas> planes = planFinanzasService.listarPlanesFinanzasPorUsuario();
 
-        // Mapear cada PlanFinanzas a un PlanFinanzasResponseDto y calcular sus saldos
+
         List<PlanFinanzasResponseDto> responseDtos = planes.stream()
                 .map(plan -> {
                     BigDecimal totalIngresos = planFinanzasService.calcularTotalIngresosPorPlan(plan.getId());

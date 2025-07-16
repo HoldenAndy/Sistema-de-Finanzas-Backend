@@ -36,7 +36,7 @@ public class PlanFinanzas {
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
 
-    // Campos adicionales del wizard avanzado
+
     @Column(name = "nombre", length = 100)
     private String nombre;
 
@@ -95,7 +95,7 @@ public class PlanFinanzas {
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 
-    // Getters y setters para campos del wizard
+    
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

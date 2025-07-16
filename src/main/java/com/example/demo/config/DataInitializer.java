@@ -34,7 +34,7 @@ public class DataInitializer {
             rolAdmin = rolRepository.save(rolAdmin);
         }
 
-        // Crear rol USER si no existe
+        
         Rol rolUser = rolRepository.findByNombre(Rol.NombreRol.USER).orElse(null);
         if (rolUser == null) {
             rolUser = new Rol();
@@ -62,3 +62,4 @@ public class DataInitializer {
         }
     }
 }
+
