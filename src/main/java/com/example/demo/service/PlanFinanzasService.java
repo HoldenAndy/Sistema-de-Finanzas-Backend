@@ -39,12 +39,29 @@ public class PlanFinanzasService {
     public PlanFinanzas crearPlanFinanzas(PlanFinanzasDto planFinanzasDto) {
         Usuario usuario = getAuthenticatedUser();
 
+        // Validar que el usuario no tenga más de 3 planes
+        List<PlanFinanzas> planesExistentes = planFinanzasRepository.findByUsuarioId(usuario.getId());
+        if (planesExistentes.size() >= 3) {
+            throw new RuntimeException("No puedes crear más de 3 planes financieros. Límite alcanzado.");
+        }
+
         PlanFinanzas planFinanzas = new PlanFinanzas();
         planFinanzas.setSueldoBase(planFinanzasDto.getSueldoBase());
         planFinanzas.setFechaInicio(planFinanzasDto.getFechaInicio());
         planFinanzas.setFechaFin(planFinanzasDto.getFechaFin());
         planFinanzas.setEstado(planFinanzasDto.getEstado());
         planFinanzas.setUsuario(usuario);
+        
+        // Campos del wizard avanzado
+        planFinanzas.setNombre(planFinanzasDto.getNombre());
+        planFinanzas.setOtrosIngresos(planFinanzasDto.getOtrosIngresos());
+        planFinanzas.setMetaPrincipal(planFinanzasDto.getMetaPrincipal());
+        planFinanzas.setMontoObjetivo(planFinanzasDto.getMontoObjetivo());
+        planFinanzas.setDistribucionNecesidades(planFinanzasDto.getDistribucionNecesidades());
+        planFinanzas.setDistribucionDeseos(planFinanzasDto.getDistribucionDeseos());
+        planFinanzas.setDistribucionAhorros(planFinanzasDto.getDistribucionAhorros());
+        planFinanzas.setTipoDistribucion(planFinanzasDto.getTipoDistribucion());
+        planFinanzas.setPrioridad(planFinanzasDto.getPrioridad());
 
         return planFinanzasRepository.save(planFinanzas);
     }
@@ -60,6 +77,35 @@ public class PlanFinanzasService {
         planExistente.setFechaInicio(planFinanzasDto.getFechaInicio());
         planExistente.setFechaFin(planFinanzasDto.getFechaFin());
         planExistente.setEstado(planFinanzasDto.getEstado());
+        
+        // Actualizar campos del wizard si están presentes
+        if (planFinanzasDto.getNombre() != null) {
+            planExistente.setNombre(planFinanzasDto.getNombre());
+        }
+        if (planFinanzasDto.getOtrosIngresos() != null) {
+            planExistente.setOtrosIngresos(planFinanzasDto.getOtrosIngresos());
+        }
+        if (planFinanzasDto.getMetaPrincipal() != null) {
+            planExistente.setMetaPrincipal(planFinanzasDto.getMetaPrincipal());
+        }
+        if (planFinanzasDto.getMontoObjetivo() != null) {
+            planExistente.setMontoObjetivo(planFinanzasDto.getMontoObjetivo());
+        }
+        if (planFinanzasDto.getDistribucionNecesidades() != null) {
+            planExistente.setDistribucionNecesidades(planFinanzasDto.getDistribucionNecesidades());
+        }
+        if (planFinanzasDto.getDistribucionDeseos() != null) {
+            planExistente.setDistribucionDeseos(planFinanzasDto.getDistribucionDeseos());
+        }
+        if (planFinanzasDto.getDistribucionAhorros() != null) {
+            planExistente.setDistribucionAhorros(planFinanzasDto.getDistribucionAhorros());
+        }
+        if (planFinanzasDto.getTipoDistribucion() != null) {
+            planExistente.setTipoDistribucion(planFinanzasDto.getTipoDistribucion());
+        }
+        if (planFinanzasDto.getPrioridad() != null) {
+            planExistente.setPrioridad(planFinanzasDto.getPrioridad());
+        }
 
         return planFinanzasRepository.save(planExistente);
     }

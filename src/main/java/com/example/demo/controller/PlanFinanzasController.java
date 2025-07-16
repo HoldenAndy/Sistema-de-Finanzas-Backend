@@ -82,4 +82,21 @@ public class PlanFinanzasController {
         return new ResponseEntity<>(planActivo, HttpStatus.OK);
     }
 
+    @GetMapping("/active/stats")
+    public ResponseEntity<PlanFinanzasResponseDto> obtenerEstadisticasPlanActivo() {
+        PlanFinanzas planActivo = planFinanzasService.obtenerPlanFinanzasActivoPorUsuario();
+        BigDecimal totalIngresos = planFinanzasService.calcularTotalIngresosPorPlan(planActivo.getId());
+        BigDecimal totalGastos = planFinanzasService.calcularTotalGastosPorPlan(planActivo.getId());
+        BigDecimal saldoActual = planFinanzasService.calcularSaldoTotalPlan(planActivo.getId());
+
+        PlanFinanzasResponseDto responseDto = new PlanFinanzasResponseDto(planActivo, totalIngresos, totalGastos, saldoActual);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> contarPlanesPorUsuario() {
+        List<PlanFinanzas> planes = planFinanzasService.listarPlanesFinanzasPorUsuario();
+        return new ResponseEntity<>(planes.size(), HttpStatus.OK);
+    }
+
 }
